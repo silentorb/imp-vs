@@ -40,6 +40,10 @@
     <Reference Include="Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\metahub\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -114,8 +118,20 @@
   <ItemGroup>
     <Content Include="C:\Users\cj\Documents\Visual Studio 2010\Addins\Imp_VS - For Testing.AddIn">
       <Link>Imp_VS - For Testing.AddIn</Link>
+      <SubType>Designer</SubType>
     </Content>
-    <Content Include="Imp_VS.AddIn" />
+    <Content Include="Imp_VS.AddIn">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\imp\Imp\Imp.csproj">
+      <Project>{72BB0D03-764D-4799-9380-BBA1A8BE7243}</Project>
+      <Name>Imp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
