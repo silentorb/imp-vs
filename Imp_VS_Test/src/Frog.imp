@@ -1,0 +1,7 @@
+﻿namespace game
+{
+    class Frog
+    {
+        name:string
+    }
+}

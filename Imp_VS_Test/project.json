@@ -1,0 +1,11 @@
+﻿{
+    "sources": [
+        "src"
+    ],
+    "targets": [
+        {
+            "type": "cs",
+            "path": "gen"
+        }
+    ]
+}
