@@ -8,6 +8,7 @@ using EnvDTE80;
 using imperative;
 using metahub.render;
 using metahub.render.targets;
+using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
 
 namespace Imp_VS
@@ -26,6 +27,13 @@ namespace Imp_VS
 
     internal static class Actions
     {
+        private static ErrorListProvider error_provider;
+
+        public static void initialize(DTE2 application)
+        {
+            error_provider = new ErrorListProvider((IServiceProvider)application);
+        }
+
         public static void create_project_item(DTE2 application)
         {
             var solution = (Solution2)application.Solution;
@@ -68,8 +76,14 @@ namespace Imp_VS
                 : new List<string> { input };
             
             var codes = files.Select(File.ReadAllText);
-            overlord.summon_many(codes);
-
+            try
+            {
+                overlord.summon_many(codes);
+            }
+            catch (Exception ex)
+            {
+                
+            }
             overlord.flatten();
             overlord.post_analyze();
             var output_path = gen.FileNames[0];
