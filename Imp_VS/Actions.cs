@@ -58,7 +58,7 @@ namespace SilentOrb.Imp_VS
             var target = config.targets[0];
             var gen_name = target.path ?? "gen";
             var gen = get_child_by_name(project.ProjectItems, gen_name);
-
+            /*
             // Run overlord
             var overlord = new Overlord(target.type);
             var project_path = Path.GetDirectoryName(project.FullName);
@@ -81,8 +81,15 @@ namespace SilentOrb.Imp_VS
             var output_path = gen.FileNames[0];
             Generator.clear_folder(output_path);
             overlord.target.run(output_path);
-
+            */
+            
             // Synchronize generated files
+            var folders = Directory.GetDirectories(gen.FileNames[0]);
+            foreach (var folder in folders)
+            {
+                gen.ProjectItems.AddFromDirectory(folder);
+                
+            }
             synchronize(gen);
         }
 
@@ -92,27 +99,28 @@ namespace SilentOrb.Imp_VS
             var files = Directory.GetFiles(path);
 
             var missing_items = root.ProjectItems.Cast<ProjectItem>()
-                .Where(item => !File.Exists(item.FileNames[0])).ToArray();
+                .Where(item => !File.Exists(item.FileNames[0]) && !Directory.Exists(item.FileNames[0])).ToArray();
 
             foreach (ProjectItem item in missing_items)
             {
                 item.Remove();
             }
 
-            foreach (var file in files)
-            {
-                root.ProjectItems.AddFromFile(file);
-            }
+//            foreach (var file in files)
+//            {
+//                root.ProjectItems.AddFromFile(file);
+//            }
 
             var folders = Directory.GetDirectories(path);
 
             foreach (var folder in folders)
             {
                 var folder_name = Path.GetFileName(folder);
-                var child_folder = get_child_by_name(root.ProjectItems, folder_name)
-                    ?? root.ProjectItems.AddFolder(folder_name);
+                var child_folder = get_child_by_name(root.ProjectItems, folder_name);
+//                    ?? root.ProjectItems.AddFolder(folder_name);
 
-                synchronize(child_folder);
+                if (child_folder != null)
+                    synchronize(child_folder);
             }
         }
 
